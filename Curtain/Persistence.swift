@@ -14,10 +14,17 @@ struct PersistenceController {
     static let preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
-        for _ in 0..<10 {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
-        }
+        let newItem = TimerData(context: viewContext)
+        
+        newItem.sunday = "00:00"
+        newItem.monday = "00:00"
+        newItem.tuesday = "00:00"
+        newItem.wednesday = "00:00"
+        newItem.friday = "00:00"
+        newItem.saturday = "00:00"
+        newItem.sunday = "00:00"
+        newItem.nextday = "00:00"
+        
         do {
             try viewContext.save()
         } catch {
