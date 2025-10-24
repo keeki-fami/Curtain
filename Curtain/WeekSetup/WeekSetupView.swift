@@ -35,6 +35,9 @@ struct WeekSetupView: View {
                             
                             Button(action: {
                                 setDataToCoreData()
+                                WeekSetupController().sendFirebase(dayTimer: dayTimer)
+                                isPopup = true
+                                isAbleToSendFirebase = false
                                 // TODO: firebase送信処理をする
                             }, label: {
                                 SendButtonView(buttonColor: Color.blue)
@@ -134,12 +137,21 @@ struct WeekSetupView: View {
                     
                     
                 }
+                .alert(
+                    "送信完了",
+                    isPresented: $isPopup
+                ) {
+                    Button(role: .destructive) {
+                        // Handle the deletion.
+                        isPopup = false
+                    } label: {
+                        Text("OK")
+                    }
+                } message: {
+                    Text("firebase realtime databaseに送信完了しました。")
+                }
             }
-            .alert("送信完了",isPresented: $isPopup) {
-                
-            } message: {
-                Text("設定が完了しました。")
-            }
+
             .sheet(isPresented: $isPushed) {
                 WheelView(
                     weekday: weekdayList[modalIndex],
